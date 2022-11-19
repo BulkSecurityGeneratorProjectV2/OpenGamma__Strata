@@ -11,6 +11,7 @@ import static com.opengamma.strata.collect.TestHelper.coverPrivateConstructor;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class RatesCurveGroupDefinitionCsvLoaderTest {
   public void test_test_writeCurveGroupDefinition_roundtrip() throws Exception {
     List<RatesCurveGroupDefinition> defn =
         RatesCurveGroupDefinitionCsvLoader.loadCurveGroupDefinitions(ResourceLocator.of(GROUPS_1));
-    File tempFile = File.createTempFile("TestCurveGroupLoading", "csv");
+    File tempFile = Files.createTempFile("TestCurveGroupLoading", "csv").toFile();
     tempFile.deleteOnExit();
     RatesCurveGroupDefinitionCsvLoader.writeCurveGroupDefinition(tempFile, defn.get(0));
     assertThat(RatesCurveGroupDefinitionCsvLoader.loadCurveGroupDefinitions(ResourceLocator.ofFile(tempFile))).isEqualTo(defn);
